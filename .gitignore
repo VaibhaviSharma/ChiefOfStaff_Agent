@@ -1,2 +1,30 @@
+# Runtime state
 logs/
 state.json
+
+# Secrets & MCP config
+slack-mcp.json
+.env
+*.key
+*.token
+
+# Personal data (not for public repo)
+todos.md
+pending.md
+workstreams.md
+config.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
