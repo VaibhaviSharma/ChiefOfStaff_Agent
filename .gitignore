@@ -9,6 +9,7 @@ slack-mcp.json
 *.token
 
 # Personal data (not for public repo)
+CLAUDE.md
 todos.md
 pending.md
 workstreams.md
