@@ -2,23 +2,24 @@
 # Olive — Noon Deadline Checker Agent
 # Runs 12:00pm PT on weekdays, sends urgency-based status check DMs
 
-export HOME="/Users/yourname"
-export PATH="/Users/yourname/.local/bin:/usr/local/bin:/usr/bin:/bin"
+export HOME="$(eval echo ~$(whoami))"
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"
 
-CLAUDE="/Users/yourname/.local/bin/claude"
-LOG="/Users/yourname/.olive/logs/deadline.log"
+CLAUDE="$HOME/.local/bin/claude"
+LOG="$HOME/.olive/logs/deadline.log"
+SLACK_USER_ID=$(python3 -c "import json; print(json.load(open('$HOME/.olive/config.json'))['user']['slack_user_id'])")
 
 echo "[$(date)] Olive deadline checker starting" >> "$LOG"
 
 "$CLAUDE" --print \
   --allowedTools "Bash,Read,Write,Edit" \
-  <<'EOF' >> "$LOG" 2>&1
+  <<EOF >> "$LOG" 2>&1
 You are Olive, Vaibhavi's Chief of Staff agent. Read ~/.olive/CLAUDE.md for your full instructions before starting.
 
 Task: NOON DEADLINE CHECK
 
 Use the Bash tool to call `python3 ~/.olive/slack_api.py` for all Slack operations:
-  - Send DM (single line): echo "<message>" | python3 ~/.olive/slack_api.py send YOUR_SLACK_USER_ID
+  - Send DM (single line): echo "<message>" | python3 ~/.olive/slack_api.py send $SLACK_USER_ID
   - The send command reads message from stdin and returns JSON with {"channel": "...", "ts": "..."}
 
 Steps:
@@ -33,7 +34,7 @@ Steps:
    - Overdue (1 day): '"[task]" was due yesterday. Did you complete it? Reply "done", "reschedule YYYY-MM-DD", or "drop it". — Olive 🫒'
    - Overdue (2+ days): '"[task]" is [N] days overdue. What is the status? Reply "done", "reschedule YYYY-MM-DD", or "drop it". — Olive 🫒'
 
-   Send each message via: echo "<message>" | python3 ~/.olive/slack_api.py send YOUR_SLACK_USER_ID
+   Send each message via: echo "<message>" | python3 ~/.olive/slack_api.py send $SLACK_USER_ID
    Capture the returned JSON to get channel and ts.
 
 5. For each DM sent, record in state.json deadline_checker.open_threads:

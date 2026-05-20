@@ -2,11 +2,11 @@
 # Olive — Morning Briefing Agent
 # Runs 8:30am PT on weekdays
 
-export HOME="/Users/yourname"
-export PATH="/Users/yourname/.local/bin:/usr/local/bin:/usr/bin:/bin"
+export HOME="$(eval echo ~$(whoami))"
+export PATH="$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin"
 
-CLAUDE="/Users/yourname/.local/bin/claude"
-LOG="/Users/yourname/.olive/logs/briefing.log"
+CLAUDE="$HOME/.local/bin/claude"
+LOG="$HOME/.olive/logs/briefing.log"
 
 echo "[$(date)] Olive morning briefing starting" >> "$LOG"
 
